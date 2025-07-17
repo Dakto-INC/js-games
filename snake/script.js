@@ -133,7 +133,7 @@ function saveScore(name, score) {
   let scores = JSON.parse(localStorage.getItem("snakeScores")) || [];
   scores.push({ name, score, timestamp: Date.now() });
   scores.sort((a, b) => b.score - a.score || a.timestamp - b.timestamp);
-  localStorage.setItem("snakeScores", JSON.stringify(scores.slice(0, 5)));
+  localStorage.setItem("snakeScores", JSON.stringify(scores.slice(0, 29)));
   updateLeaderboard();
 }
 
