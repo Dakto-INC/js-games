@@ -1,0 +1,26 @@
+.banner, .footer {
+    border: 2px solid #0af;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.choices button {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #0af;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.choices button:hover {
+    background-color: #09c;
+}
+
+.hidden{
+	display:none;
+}
+

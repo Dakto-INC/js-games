@@ -1,0 +1,102 @@
+/* Reset-style stuff */
+body {
+  margin: 0;
+  padding: 0;
+  background: url('/img/background.png') no-repeat center center fixed;
+  background-size: cover;
+  background-color: black;
+
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+}
+
+
+/* Header */
+.title {
+    font-size: 2.5em;
+    margin: 30px 0 10px 0;
+    color: white;
+    /* could add text-shadow maybe? */
+}
+
+
+/* Nav buttons linkbtton nav box  */
+#nav-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+#nav-link-button  {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  padding: 10px 20px;
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  font-size: 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+#nav-link-button  {
+  background: rgba(0,0,0,0.6);
+}
+
+#nav-link-button:before,#norm-link-button:before  {
+  content: url(https://daktoinc.co.uk/dki-1.ico);
+  margin-right: 10px;
+}
+
+#norm-link-button
+{
+    position: fixed;
+    top: 10px;
+    left: 5px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px 10px;
+    border-radius: 8px;
+    z-index: 1000;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* calculator container */
+#calculator {
+    max-width: 420px;
+    margin: 40px auto;
+    background: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    /* could possibly add a border... mabye */
+}
+
+
+/* the screen/display box */
+#display {
+    width: 100%;
+    font-size: 1.4em;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: right;
+
+    background: #222;
+    color: white;
+    
+    box-sizing: border-box;
+    border: 2px solid #444;
+    border-radius: 5px;
+}
+
+
+

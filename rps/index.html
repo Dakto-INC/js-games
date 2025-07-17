@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dakto INC - Rock Paper Scissors</title>
+    <link rel="stylesheet" href="/css/sitewide.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="/dki-1.ico" type="image/x-icon">
+</head>
+<body>
+    <a href="https://games.daktoinc.co.uk" id="norm-link-button">Games Home</a>
+    <h1 class="title">Rock Paper Scissors</h1>
+    <div id="game">
+        <div id="round">Round 1 of 20</div>
+        <div class="choices">
+            <button onclick="makeChoice('rock')">Rock</button>
+            <button onclick="makeChoice('paper')">Paper</button>
+            <button onclick="makeChoice('scissors')">Scissors</button>
+        </div>
+        <div id="computer-choice"></div>
+        <div id="result"></div>
+        <div id="scoreboard">Score: 0/20</div>
+    </div>
+
+    <div id="final" class="hidden">
+        <h2>Game Over!</h2>
+        <p id="final-score"></p>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
