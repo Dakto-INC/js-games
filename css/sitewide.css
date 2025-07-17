@@ -5,12 +5,15 @@ body {
   background: url('/img/background.png') no-repeat center center fixed;
   background-size: cover;
   background-color: black;
-
-  font-family: Arial, sans-serif;
+  font-family: 'Bahnschrift', sans-serif;
   color: white;
   text-align: center;
 }
 
+@font-face {
+  font-family: 'Bahnschrift';
+  src:  url('font/Bahnschrift.woff2') format('woff2');
+}
 
 /* Header */
 .title {
