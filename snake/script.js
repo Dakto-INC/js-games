@@ -146,7 +146,7 @@ function updateLeaderboard() {
   const list = document.getElementById("leaderboardList");
   const scores = JSON.parse(localStorage.getItem("snakeScores")) || [];
   list.innerHTML = "";
-  scores.slice(0, 5).forEach((s, i) => {
+  scores.slice(0, 20).forEach((s, i) => {
     const li = document.createElement("li");
     li.textContent = `${i + 1}. ${s.name} - ${s.score}`;
     list.appendChild(li);
