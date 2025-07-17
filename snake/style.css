@@ -44,13 +44,12 @@ input, button {
 button {
   cursor: pointer;
   color: white;
+  background-color: #3290d6;
   border: none;
   border-radius: 10px;
 }
 
-button#playButton {
-  background-color: #3290d6;
-}
+
 
 button#quitButton {
   background-color: #d63232;

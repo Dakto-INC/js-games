@@ -32,7 +32,7 @@ document.getElementById("playButton").onclick = () => {
 };
 
 document.getElementById("quitButton").onclick = () => {
-  window.close();
+  window.location.href = "https://games.daktoinc.co.uk";
 };
 
 document.addEventListener("keydown", (e) => {
