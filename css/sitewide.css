@@ -12,7 +12,7 @@ body {
 
 @font-face {
   font-family: 'Bahnschrift';
-  src:  url('font/Bahnschrift.woff2') format('woff2');
+  src:  url('/font/Bahnschrift.woff2') format('woff2');
 }
 
 /* Header */

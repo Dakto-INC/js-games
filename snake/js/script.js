@@ -37,15 +37,21 @@ document.getElementById("quitButton").onclick = () => {
 
 document.addEventListener("keydown", (e) => {
   if (!paused) {
+		    console.log("debug:"+e.key.toLowerCase());
     switch (e.key.toLowerCase()) {
-      case "w": if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
-      case "s": if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
-      case "a": if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
-      case "d": if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
-      case "p": togglePause(); break;
+      case "w","arrowup":
+		    if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
+      case "s","arrowdown":
+		    if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
+      case "a","arrowleft": 
+		    if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
+      case "d","arrowright": 
+		    if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
+      case "p","escape": 
+		    togglePause(); break;
     }
   } else {
-    if (e.key.toLowerCase() === "p") togglePause();
+    if (e.key.toLowerCase() === "p"||e.key.toLowerCase() === "escape") togglePause();
     else if (e.key.toLowerCase() === "m") location.reload();
   }
 });
