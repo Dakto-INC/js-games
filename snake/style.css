@@ -41,7 +41,7 @@ input, button {
   font-size: 1em;
 }
 
-button {
+.button {
   cursor: pointer;
   background-color: #3290d6;
   color: white;
@@ -49,7 +49,7 @@ button {
   border-radius: 10px;
 }
 
-button#quitButton {
+.button.quit {
   background-color: #d63232;
 }
 
