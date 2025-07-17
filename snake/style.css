@@ -43,10 +43,13 @@ input, button {
 
 button {
   cursor: pointer;
-  background-color: #3290d6;
   color: white;
   border: none;
   border-radius: 10px;
+}
+
+button#playButton {
+  background-color: #3290d6;
 }
 
 button#quitButton {
