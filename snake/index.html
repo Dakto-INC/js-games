@@ -5,15 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://daktoinc.co.uk/dki-1.ico" type="image/x-icon">
     <title>Dakto INC Snake</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="/css/sitewide.css">
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <a href="https://games.daktoinc.co.uk" id="norm-link-button">Games Home</a>
-
-    <div id="game-container"></div>
-    <py-script src="snake.py"></py-script>
+    <div id="titleScreen" class="overlay">
+        <h1>Dakto INC Snake</h1>
+        <label for="playerName">Enter you name:</label>
+        <input type="text" id="playerName" maxlength="12" />
+        <button id="playButton">Play Game</button>
+        <button id="quitButton">Quit Game</button>
+        <h2>Leaderboard</h2>
+        <ol id="leaderboardList"></ol>
+    </div>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div id="pauseScreen" class="overlay hidden">
+        <h1>Paused</h1>
+        <p>Press P to Resume</p>
+        <p>Press M for Menu</p>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
