@@ -1,31 +1,74 @@
 import express from "express";
+import sqlite3 from "sqlite3";
 import cors from "cors";
-import { initDB, addScore, getTopScores } from "./db.js";
+import bodyParser from "body-parser";
+import path from "path";
 const app = express();
-const PORT = process.env.PORT || 3000;
-app.use(cors());
-app.use(express.json());
-await initDB();
-app.get("/api/scores", async (req, res) => {
-  try {
-    const scores = await getTopScores(30);
-    res.json(scores);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to get scores" });
+const port = 3000;
+app.use(cors({
+  origin: "https://games.daktoinc.co.uk"
+}));
+app.use(bodyParser.json());
+const dbFile = path.resolve("./snake-leaderboard.db");
+const db = new sqlite3.Database(dbFile, (err) => {
+  if (err) {
+    console.error("Failed to open DB:", err.message);
+    process.exit(1);
+  } else {
+    console.log("Connected to SQLite DB.");
   }
 });
-app.post("/api/scores", async (req, res) => {
-  const { name, score, timestamp, date, time } = req.body;
-  if (!name || typeof score !== "number") {
-    return res.status(400).json({ error: "Invalid score data" });
-  }
-  try {
-    await addScore({ name, score, timestamp, date, time });
-    res.status(201).json({ success: true });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to save score" });
-  }
+db.run(`
+  CREATE TABLE IF NOT EXISTS scores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    score INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    date TEXT,
+    time TEXT
+  )
+`);
+app.get("/api/scores", (req, res) => {
+  db.all(
+    `SELECT name, score, date, time FROM scores
+     ORDER BY score DESC, timestamp ASC
+     LIMIT 20`,
+    [],
+    (err, rows) => {
+      if (err) {
+        console.error("DB read error:", err.message);
+        res.status(500).json({ error: "Failed to load scores" });
+      } else {
+        res.json(rows);
+      }
+    }
+  );
 });
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.post("/api/scores", (req, res) => {
+  const { name, score, date, time } = req.body;
+  if (
+    !name ||
+    typeof score !== "number" ||
+    score < 0 ||
+    typeof date !== "string" ||
+    typeof time !== "string"
+  ) {
+    return res.status(400).json({ error: "Invalid input data" });
+  }
+  const timestamp = Date.now();
+  const stmt = db.prepare(
+    `INSERT INTO scores (name, score, timestamp, date, time) VALUES (?, ?, ?, ?, ?)`
+  );
+  stmt.run(name, score, timestamp, date, time, (err) => {
+    if (err) {
+      console.error("DB insert error:", err.message);
+      res.status(500).json({ error: "Failed to save score" });
+    } else {
+      res.json({ message: "Score saved" });
+    }
+  });
+  stmt.finalize();
+});
+app.listen(port, () => {
+  console.log(`Snake leaderboard backend listening on port ${port}`);
 });
