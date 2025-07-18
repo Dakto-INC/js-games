@@ -17,16 +17,17 @@ let food = randomFood();
 let gameOver = false;
 let paused = false;
 let playerName = "";
-let highScore = getHighScore();
+let highScore = 0;
 
 const titleScreen = document.getElementById("titleScreen");
 const pauseScreen = document.getElementById("pauseScreen");
 
-document.getElementById("playButton").onclick = () => {
+document.getElementById("playButton").onclick = async () => {
   const nameInput = document.getElementById("playerName");
   if (nameInput.value.trim()) {
     playerName = nameInput.value.trim();
     titleScreen.classList.add("hidden");
+    highScore = await getHighScore();
     startGame();
   }
 };
@@ -38,29 +39,19 @@ document.getElementById("quitButton").onclick = () => {
 document.addEventListener("keydown", (e) => {
   if (!paused) {
     switch (e.key.toLowerCase()) {
-      case "w":
+      case "w": case "arrowup":
         if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
-      case "s":
+      case "s": case "arrowdown":
         if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
-      case "a": 
+      case "a": case "arrowleft":
         if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
-      case "d": 
+      case "d": case "arrowright":
         if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
-      case "p": 
-        togglePause(); break;
-      case "arrowup":
-        if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
-      case "arrowdown":
-        if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
-      case "arrowleft": 
-        if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
-      case "arrowright": 
-        if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
-      case "escape": 
+      case "p": case "escape":
         togglePause(); break;
     }
   } else {
-    if (e.key.toLowerCase() === "p"||e.key.toLowerCase() === "escape") togglePause();
+    if (e.key.toLowerCase() === "p" || e.key.toLowerCase() === "escape") togglePause();
     else if (e.key.toLowerCase() === "m") location.reload();
   }
 });
@@ -144,35 +135,57 @@ function randomFood() {
   return { x: fx, y: fy };
 }
 
-function saveScore(name, score) {
-  let scores = JSON.parse(localStorage.getItem("snakeScores")) || [];
+async function saveScore(name, score) {
   const now = new Date();
-  const dateStr = now.toLocaleDateString();
-  const timeStr = now.toLocaleTimeString();
-  scores.push({ name, score, timestamp: now.getTime(), date: dateStr, time: timeStr });
-  scores.sort((a, b) => b.score - a.score || a.timestamp - b.timestamp);
-  localStorage.setItem("snakeScores", JSON.stringify(scores.slice(0, 29)));
-  updateLeaderboard();
+  const payload = {
+    name,
+    score,
+    timestamp: now.getTime(),
+    date: now.toLocaleDateString(),
+    time: now.toLocaleTimeString()
+  };
+
+  try {
+    await fetch("https://your-api-url.com/api/scores", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    updateLeaderboard();
+  } catch (err) {
+    console.error("Error saving score:", err);
+  }
 }
 
-function getHighScore() {
-  const scores = JSON.parse(localStorage.getItem("snakeScores")) || [];
-  return scores.length ? scores[0].score : 0;
+async function getHighScore() {
+  try {
+    const res = await fetch("https://your-api-url.com/api/scores");
+    const scores = await res.json();
+    return scores.length ? scores[0].score : 0;
+  } catch (err) {
+    console.error("Failed to fetch high score:", err);
+    return 0;
+  }
 }
 
-function updateLeaderboard() {
+async function updateLeaderboard() {
   const list = document.getElementById("leaderboardList");
-  const scores = JSON.parse(localStorage.getItem("snakeScores")) || [];
   list.innerHTML = "";
-  scores.slice(0, 20).forEach((s, i) => {
-    const li = document.createElement("li");
-    let dateTime = "";
-    if (s.date && s.time) {
-      dateTime = ` (${s.date} ${s.time})`;
-    }
-    li.textContent = `${s.name} - ${s.score}${dateTime}`;
-    list.appendChild(li);
-  });
+
+  try {
+    const res = await fetch("https://your-api-url.com/api/scores");
+    const scores = await res.json();
+
+    scores.slice(0, 20).forEach((s, i) => {
+      const li = document.createElement("li");
+      const dateTime = s.date && s.time ? ` (${s.date} ${s.time})` : "";
+      li.textContent = `${s.name} - ${s.score}${dateTime}`;
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Error updating leaderboard:", err);
+    list.innerHTML = "<li>Failed to load leaderboard</li>";
+  }
 }
 
 updateLeaderboard();
