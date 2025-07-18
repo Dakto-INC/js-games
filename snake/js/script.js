@@ -154,7 +154,7 @@ function updateLeaderboard() {
   list.innerHTML = "";
   scores.slice(0, 20).forEach((s, i) => {
     const li = document.createElement("li");
-    li.textContent = `${i + 1}. ${s.name} - ${s.score}`;
+    li.textContent = `${s.name} - ${s.score}`;
     list.appendChild(li);
   });
 }
