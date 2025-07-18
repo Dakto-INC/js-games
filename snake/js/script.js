@@ -146,7 +146,7 @@ async function saveScore(name, score) {
   };
 
   try {
-    await fetch("http://localhost:3000/api/scores", {
+    await fetch("http://82.0.225.13:3000/api/scores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -159,7 +159,7 @@ async function saveScore(name, score) {
 
 async function getHighScore() {
   try {
-    const res = await fetch("http://localhost:3000/api/scores");
+    const res = await fetch("http://82.0.225.13:3000/api/scores");
     const scores = await res.json();
     return scores.length ? scores[0].score : 0;
   } catch (err) {
@@ -173,7 +173,7 @@ async function updateLeaderboard() {
   list.innerHTML = "";
 
   try {
-    const res = await fetch("http://localhost:3000/api/scores");
+    const res = await fetch("http://82.0.225.13:3000/api/scores");
     const scores = await res.json();
 
     scores.slice(0, 20).forEach((s, i) => {
