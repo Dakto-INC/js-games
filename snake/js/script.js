@@ -173,7 +173,11 @@ async function updateLeaderboard() {
 
     scores.slice(0, 20).forEach((s, i) => {
       const li = document.createElement("li");
-      const dateTime = s.date && s.time ? ` (${s.date} ${s.time})` : "";
+      let dateTime = "";
+      if (s.timestamp) {
+      	const dt = new Data(s.timestamp);
+      	dateTime= ` (${dt.toLocaleDateString()} ${dt.toLocaleTimeString()})`;
+      }
       li.textContent = `${s.name} - ${s.score}${dateTime}`;
       list.appendChild(li);
     });

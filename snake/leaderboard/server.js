@@ -30,7 +30,7 @@ db.run(`
 `);
 app.get("/api/scores", (req, res) => {
   db.all(
-    `SELECT name, score, date, time FROM scores
+    `SELECT name, score, timestamp FROM scores
      ORDER BY score DESC, timestamp ASC
      LIMIT 20`,
     [],
