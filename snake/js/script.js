@@ -31,11 +31,6 @@ document.getElementById("playButton").onclick = async () => {
     startGame();
   }
 };
-
-document.getElementById("quitButton").onclick = () => {
-  window.location.href = "https://games.daktoinc.co.uk";
-};
-
 document.addEventListener("keydown", (e) => {
   if (!paused) {
     switch (e.key.toLowerCase()) {
