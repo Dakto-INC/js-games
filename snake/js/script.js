@@ -39,25 +39,25 @@ document.addEventListener("keydown", (e) => {
   if (!paused) {
     switch (e.key.toLowerCase()) {
       case "w":
-		    if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
+        if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
       case "s":
-		    if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
+        if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
       case "a": 
-		    if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
+        if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
       case "d": 
-		    if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
+        if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
       case "p": 
-		    togglePause(); break;
+        togglePause(); break;
       case "arrowup":
-		    if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
+        if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
       case "arrowdown":
-		    if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
+        if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
       case "arrowleft": 
-		    if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
+        if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
       case "arrowright": 
-		    if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
+        if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
       case "escape": 
-		    togglePause(); break;
+        togglePause(); break;
     }
   } else {
     if (e.key.toLowerCase() === "p"||e.key.toLowerCase() === "escape") togglePause();
@@ -130,7 +130,7 @@ function gameLoop() {
 function endGame() {
   gameOver = true;
   setTimeout(() => {
-    if (confirm("Game Over! Play Again (OK) or Quit (Cancel)?")) {
+    if (confirm("Game Over! Play Again (OK) or Main Menu (Cancel)?")) {
       startGame();
     } else {
       location.reload();
@@ -146,7 +146,10 @@ function randomFood() {
 
 function saveScore(name, score) {
   let scores = JSON.parse(localStorage.getItem("snakeScores")) || [];
-  scores.push({ name, score, timestamp: Date.now() });
+  const now = new Date();
+  const dateStr = now.toLocaleDateString();
+  const timeStr = now.toLocaleTimeString();
+  scores.push({ name, score, timestamp: now.getTime(), date: dateStr, time: timeStr });
   scores.sort((a, b) => b.score - a.score || a.timestamp - b.timestamp);
   localStorage.setItem("snakeScores", JSON.stringify(scores.slice(0, 29)));
   updateLeaderboard();
@@ -163,7 +166,11 @@ function updateLeaderboard() {
   list.innerHTML = "";
   scores.slice(0, 20).forEach((s, i) => {
     const li = document.createElement("li");
-    li.textContent = `${s.name} - ${s.score}`;
+    let dateTime = "";
+    if (s.date && s.time) {
+      dateTime = ` (${s.date} ${s.time})`;
+    }
+    li.textContent = `${s.name} - ${s.score}${dateTime}`;
     list.appendChild(li);
   });
 }
