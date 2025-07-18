@@ -37,7 +37,6 @@ document.getElementById("quitButton").onclick = () => {
 
 document.addEventListener("keydown", (e) => {
   if (!paused) {
-		    console.log("debug:"+e.key.toLowerCase());
     switch (e.key.toLowerCase()) {
       case "w","arrowup":
 		    if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
