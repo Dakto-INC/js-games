@@ -120,7 +120,6 @@ function gameLoop() {
         highScore = length - 1;
       }
       food = randomFood();
-      saveScore(playerName, length - 1);
     }
   }
 
@@ -129,6 +128,7 @@ function gameLoop() {
 
 function endGame() {
   gameOver = true;
+  saveScore(playerName, length - 1);
   setTimeout(() => {
     if (confirm("Game Over! Play Again (OK) or Main Menu (Cancel)?")) {
       startGame();
