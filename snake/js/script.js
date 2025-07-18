@@ -130,28 +130,21 @@ function randomFood() {
   return { x: fx, y: fy };
 }
 
-async function saveScore(name, score) {
-  const now = new Date();
-  const payload = {
-    name,
-    score,
-    timestamp: now.getTime(),
-    date: now.toLocaleDateString(),
-    time: now.toLocaleTimeString()
-  };
-
-  try {
-    await fetch("https://api.daktoinc.co.uk/api/scores", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    updateLeaderboard();
-  } catch (err) {
-    console.error("Error saving score:", err);
-  }
+function saveScore(name, score) {
+  const timestamp = Date.now();
+  fetch("https://api.daktoinc.co.uk/api/scores", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name,
+      score: Number(score),
+      timestamp: Number(timestamp)
+    })
+  })
+  .then(res => res.json())
+  .then(console.log)
+  .catch(console.error);
 }
-
 async function getHighScore() {
   try {
     const res = await fetch("https://api.daktoinc.co.uk/api/scores");
@@ -163,28 +156,41 @@ async function getHighScore() {
   }
 }
 
-async function updateLeaderboard() {
+function updateLeaderboard() {
   const list = document.getElementById("leaderboardList");
   list.innerHTML = "";
-
-  try {
-    const res = await fetch("https://api.daktoinc.co.uk/api/scores");
-    const scores = await res.json();
-
-    scores.slice(0, 20).forEach((s, i) => {
-      const li = document.createElement("li");
-      let dateTime = "";
-      if (s.timestamp) {
-      	const dt = new Data(s.timestamp);
-      	dateTime= ` (${dt.toLocaleDateString()} ${dt.toLocaleTimeString()})`;
+  fetch("https://api.daktoinc.co.uk/api/scores")
+    .then(res => {
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
+    })
+    .then(scores => {
+      if (!scores.length) {
+        list.innerHTML = "<li>No scores yet</li>";
+        return;
       }
-      li.textContent = `${s.name} - ${s.score}${dateTime}`;
-      list.appendChild(li);
-    });
-  } catch (err) {
-    console.error("Error updating leaderboard:", err);
-    list.innerHTML = "<li>Failed to load leaderboard</li>";
-  }
-}
+      scores.forEach(({ name, score, timestamp }) => {
+        const li = document.createElement("li");
+        const date = new Date(timestamp);
+        const localDateStr = date.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+        const localTimeStr = date.toLocaleTimeString(undefined, {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
 
+        li.textContent = `${name} - ${score} (${localDateStr} ${localTimeStr})`;
+        list.appendChild(li);
+      });
+    })
+    .catch(err => {
+      console.error("Failed to load leaderboard:", err);
+      list.innerHTML = "<li>Failed to load leaderboard</li>";
+    });
+}
 updateLeaderboard();
+
