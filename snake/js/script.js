@@ -38,15 +38,15 @@ document.getElementById("quitButton").onclick = () => {
 document.addEventListener("keydown", (e) => {
   if (!paused) {
     switch (e.key.toLowerCase()) {
-      case "w","arrowup":
+      case "w":
 		    if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
-      case "s","arrowdown":
+      case "s":
 		    if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
-      case "a","arrowleft": 
+      case "a": 
 		    if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
-      case "d","arrowright": 
+      case "d": 
 		    if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
-      case "p","escape": 
+      case "p": 
 		    togglePause(); break;
       case "arrowup":
 		    if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
