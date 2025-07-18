@@ -48,6 +48,16 @@ document.addEventListener("keydown", (e) => {
 		    if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
       case "p","escape": 
 		    togglePause(); break;
+      case "arrowup":
+		    if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
+      case "arrowdown":
+		    if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
+      case "arrowleft": 
+		    if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
+      case "arrowright": 
+		    if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
+      case "escape": 
+		    togglePause(); break;
     }
   } else {
     if (e.key.toLowerCase() === "p"||e.key.toLowerCase() === "escape") togglePause();
