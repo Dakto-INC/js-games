@@ -10,16 +10,16 @@
 <body>
   <canvas id="gameCanvas"></canvas>
 
-  <div id="touchControls" class="hidden">
-    <div class="row">
-      <button class="touch-btn" data-dir="UP">↑</button>
-    </div>
-    <div class="row">
-      <button class="touch-bin" data-dir="LEFT">←</button>
-      <button class="touch-bin" data-dir="DOWN">↓</button>
-      <button class="touch-bin" data-dir="RIGHT">→</button>
+<div id="touchControls" class="hidden">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <button class="touch-btn" data-dir="UP">↑</button>
+    <div style="display: flex; gap: 10px; margin-top: 10px;">
+      <button class="touch-btn" data-dir="LEFT">←</button>
+      <button class="touch-btn" data-dir="DOWN">↓</button>
+      <button class="touch-btn" data-dir="RIGHT">→</button>
     </div>
   </div>
+</div>
   <div id="titleScreen" class="overlay">
          <a href="https://games.daktoinc.co.uk" id="norm-link-button">Games Home</a>           
 	  <h1>Dakto INC Snake</h1>

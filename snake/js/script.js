@@ -25,27 +25,36 @@ let highScore = 0;
 const titleScreen = document.getElementById("titleScreen");
 const pauseScreen = document.getElementById("pauseScreen");
 
-if (isTouchDevice()) {
-  document.getElementById("touchControls").classList.remove("hidden");
-  document.querySelectorAll(".touch-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const dir = btn.dataset.dir;
-      if (!paused) {
-        switch (dir) {
-          case "UP":
-            if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; } break;
-          case "DOWN":
-            if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; } break;
-          case "LEFT":
-            if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; } break;
-          case "RIGHT":
-            if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; } break;
-        }
-      }
-    });
-  });
+function isTouchDevice() {
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
 
+function showTouchControlsIfNeeded() {
+  if (isTouchDevice()) {
+    document.getElementById("touchControls").classList.remove("hidden");
+  }
+}
+
+document.querySelectorAll(".touch-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const dir = btn.dataset.dir;
+    switch (dir) {
+      case "UP":
+        if (direction !== "DOWN")  { dx = 0; dy = -10; direction = "UP"; }
+        break;
+      case "DOWN":
+        if (direction !== "UP")    { dx = 0; dy = 10;  direction = "DOWN"; }
+        break;
+      case "LEFT":
+        if (direction !== "RIGHT") { dx = -10; dy = 0; direction = "LEFT"; }
+        break;
+      case "RIGHT":
+        if (direction !== "LEFT")  { dx = 10; dy = 0;  direction = "RIGHT"; }
+        break;
+      console.log("Pressed:", dir);
+    }
+  });
+});
 document.getElementById("playButton").onclick = async () => {
   const nameInput = document.getElementById("playerName");
   if (nameInput.value.trim()) {
@@ -90,6 +99,7 @@ function startGame() {
   gameOver = false;
   direction = null;
   requestAnimationFrame(gameLoop);
+  showTouchControlsIfNeeded();
 }
 
 function gameLoop() {
@@ -133,6 +143,7 @@ function gameLoop() {
     }
   }
 
+  const speed = isTouchDevice() ? 1000 / 10 : 1000 / 15;
   setTimeout(() => requestAnimationFrame(gameLoop), 1000 / 15);
 }
 
