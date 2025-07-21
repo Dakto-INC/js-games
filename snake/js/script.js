@@ -166,14 +166,12 @@ function randomFood() {
 }
 
 function saveScore(name, score) {
-  const timestamp = Date.now();
   fetch("https://api.daktoinc.co.uk/api/scores", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       name,
       score: Number(score),
-      timestamp: Number(timestamp)
     })
   })
   .then(res => res.json())

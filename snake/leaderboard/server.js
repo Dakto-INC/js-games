@@ -38,7 +38,7 @@ app.get("/api/scores", (req, res) => {
   );
 });
 app.post("/api/scores", (req, res) => {
-  const { name, score, timestamp } = req.body;
+  const { name, score } = req.body;
   console.log("Incoming POST /api/scores:", req.body);
   const valid =
     typeof name === "string" &&
@@ -46,9 +46,8 @@ app.post("/api/scores", (req, res) => {
     name.length <= 32 &&
     typeof score === "number" &&
     !isNaN(score) &&
-    score >= 0 &&
-    typeof timestamp === "number" &&
-    !isNaN(timestamp);
+    score >= 0;
+    let timestamp=new Date().getTime();
   if (!valid) {
     console.log("Invalid input. Validation failed.");
     return res.status(400).json({ error: "Invalid input data" });
