@@ -1,0 +1,29 @@
+#the-actual-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  padding-top: 20px;
+}
+
+#the-actual-game .title {
+  margin-bottom: 20px;
+}
+
+#background-shit {
+  border: 2px solid white;
+  background: black;
+  display: none;
+  margin-top: 20px;
+}
+
+#main-menu button {
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  margin-top: 20px;
+}
