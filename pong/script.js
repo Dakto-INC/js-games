@@ -1,8 +1,13 @@
 const canvas = document.getElementById("background-shit");
 const ctx = canvas.getContext("2d");
 
+
 const startBtn = document.getElementById("start-btn");
 const mainMenu = document.getElementById("main-menu");
+const singleBtn = document.getElementById("single-btn");
+const coopBtn = document.getElementById("coop-btn");
+
+let gameMode = "single"; 
 
 const ball = {
   x: canvas.width / 2,
@@ -27,7 +32,7 @@ const rightPaddle = {
   y: canvas.height / 2 - paddleHeight / 2,
   width: paddleWidth,
   height: paddleHeight,
-  dy: 2 // slower AI for easier scoring
+  dy: 6 
 };
 
 let leftScore = 0;
@@ -59,9 +64,15 @@ function drawText(text, x, y, color) {
 function movePaddles() {
   if (keys["w"] && leftPaddle.y > 0) leftPaddle.y -= leftPaddle.dy;
   if (keys["s"] && leftPaddle.y + leftPaddle.height < canvas.height) leftPaddle.y += leftPaddle.dy;
-  if (!keys["ArrowUp"] && !keys["ArrowDown"]) {
-    if (ball.y < rightPaddle.y + rightPaddle.height / 2) rightPaddle.y -= rightPaddle.dy;
-    else if (ball.y > rightPaddle.y + rightPaddle.height / 2) rightPaddle.y += rightPaddle.dy;
+
+  if (gameMode === "coop") {
+    if (keys["ArrowUp"] && rightPaddle.y > 0) rightPaddle.y -= rightPaddle.dy;
+    if (keys["ArrowDown"] && rightPaddle.y + rightPaddle.height < canvas.height) rightPaddle.y += rightPaddle.dy;
+  } else {
+    if (!keys["ArrowUp"] && !keys["ArrowDown"]) {
+      if (ball.y < rightPaddle.y + rightPaddle.height / 2) rightPaddle.y -= 2;
+      else if (ball.y > rightPaddle.y + rightPaddle.height / 2) rightPaddle.y += 2;
+    }
   }
   if (rightPaddle.y < 0) rightPaddle.y = 0;
   if (rightPaddle.y + rightPaddle.height > canvas.height) rightPaddle.y = canvas.height - rightPaddle.height;
@@ -121,8 +132,27 @@ function game() {
   render();
 }
 
+singleBtn.addEventListener("click", () => {
+  gameMode = "single";
+  startBtn.style.display = "inline-block";
+  singleBtn.style.background = "#444";
+  coopBtn.style.background = "";
+});
+
+coopBtn.addEventListener("click", () => {
+  gameMode = "coop";
+  startBtn.style.display = "inline-block";
+  coopBtn.style.background = "#444";
+  singleBtn.style.background = "";
+});
+
 startBtn.addEventListener("click", () => {
   mainMenu.style.display = "none";
   canvas.style.display = "block";
+  leftScore = 0;
+  rightScore = 0;
+  leftPaddle.y = canvas.height / 2 - paddleHeight / 2;
+  rightPaddle.y = canvas.height / 2 - paddleHeight / 2;
+  resetBall();
   gameInterval = setInterval(game, 1000 / 60);
 });
