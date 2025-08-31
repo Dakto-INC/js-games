@@ -27,3 +27,13 @@
   color: white;
   margin-top: 20px;
 }
+
+#controls-info {
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 18px;
+  text-align: left;
+}
