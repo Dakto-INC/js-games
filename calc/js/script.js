@@ -124,12 +124,12 @@ function handleBtn(label) {
 function calculate() {
 let sanitisexpr = expr.replace(/\s/g, "") ;
 let trigged = (eggmodeA >= 4 && eggmodeB >= 8 && eggmodeC >= 10 && eggmodeD >= 20 ) ;
-  if ( trigged && ( sanitisexpr === "28/08" ||sanitisexpr === "288" || sanitisexpr === "2011/08/28" || sanitisexpr === "11828") ) {
+  if ( trigged && ( sanitisexpr === "28/08" ||sanitisexpr === "288") ) {
 //Fr why u copied me
 //Nuh uh
  qwqwashere("Dakto was here :3","dak.png"); 
 
-  } else if ( trigged && ( sanitisexpr === "08/12" || sanitisexpr === "812" || sanitisexpr === "2006/12/08" || sanitisexpr === "6128") ) {
+  } else if ( trigged && ( sanitisexpr === "08/12" || sanitisexpr === "812") ) {
 
  qwqwashere("QwQ was here :3","qwq.png"); 
 
